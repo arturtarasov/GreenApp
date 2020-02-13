@@ -8,7 +8,7 @@ const { width, height } = Dimensions.get("window");
 
 class Welcome extends Component {
   static navigationOptions = {
-    header: null
+    headerShown: false
   };
   state = {
     showTerms: false
@@ -136,7 +136,7 @@ class Welcome extends Component {
     const { navigation } = this.props;
     return (
       <Block>
-        <Block center middle flex={0.5}>
+        <Block center bottom flex={0.4}>
           <Text h1 center bold>
             Your Home.
             <Text h1 primary>
@@ -162,7 +162,7 @@ class Welcome extends Component {
               Signup
             </Text>
           </Button>
-          <Button gray2 onPress={() => this.setState({ showTerms: true })}>
+          <Button onPress={() => this.setState({ showTerms: true })}>
             <Text center caption gray>
               Terms of service
             </Text>

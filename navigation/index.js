@@ -4,12 +4,13 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import { theme } from '../constants';
+import { Login } from '../screens/Login';
 import Welcome from '../screens/Welcome';
 
 const screens = createStackNavigator(
   {
-    Welcome
-    // Login,
+    Welcome,
+    Login
     // Explore,
     // Browse,
     // Product,
@@ -17,13 +18,16 @@ const screens = createStackNavigator(
   },
   {
     defaultNavigationOptions: {
+      cardStyle: { backgroundColor: "#FFFFFF" },
       headerStyle: {
         height: theme.sizes.base * 4,
-        backgroundColor: theme.colors.white, // or 'white
+        backgroundColor: theme.colors.white,
         borderBottomColor: "transparent",
-        elevation: 0 // for android
+        elevation: 0
       },
-      headerBackImage: <Image source={require("../assets/icons/back.png")} />,
+      headerBackImage: () => (
+        <Image source={require("../assets/icons/back.png")} />
+      ),
       headerBackTitle: null,
       headerLeftContainerStyle: {
         alignItems: "center",
