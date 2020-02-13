@@ -1,7 +1,8 @@
-import { AppLoading, Asset } from 'expo';
+import { AppLoading } from 'expo';
+import { Asset } from 'expo-asset';
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
 
+import { Block } from './components';
 import Navigation from './navigation';
 
 const images = [
@@ -33,7 +34,7 @@ export default function App() {
   handleResource = async () => {
     // caching images
     const cacheImages = images.map(img => {
-      return Asset.fromModule(image).downloadAsync();
+      return Asset.fromModule(img).downloadAsync();
     });
 
     return Promise.all(cacheImages);
@@ -50,17 +51,8 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
+    <Block white>
       <Navigation />
-    </View>
+    </Block>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
