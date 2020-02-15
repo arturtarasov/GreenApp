@@ -4,6 +4,7 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import { theme } from '../constants';
+import { Browse } from '../screens/Browse';
 import { Forgot } from '../screens/Forgot';
 import { Login } from '../screens/Login';
 import { SignUp } from '../screens/SignUp';
@@ -14,9 +15,9 @@ const screens = createStackNavigator(
     Welcome,
     Login,
     SignUp,
-    Forgot
+    Forgot,
+    Browse
     // Explore,
-    // Browse,
     // Product,
     // Settings
   },

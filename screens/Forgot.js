@@ -41,7 +41,7 @@ export const Forgot = ({ navigation }) => {
   const hasErrors = key => (errors.includes(key) ? styles.hasErrors : null);
   return (
     <KeyboardAvoidingView style={styles.forgot} behavior="padding">
-      <Block padding={[0, theme.sizes.padding + 1.2]}>
+      <Block padding={[0, theme.sizes.padding * 1.7]}>
         <Text h1 bold>
           Forgot
         </Text>
