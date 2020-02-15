@@ -86,4 +86,6 @@ const profile = {
   newsletter: false
 };
 
-export { categories, explore, products, profile };
+const tabs = ["Products", "Inspirations", "Shop"];
+
+export { categories, explore, products, profile, tabs };
