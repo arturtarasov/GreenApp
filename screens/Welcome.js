@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import { Animated, Dimensions, FlatList, Image, Modal, ScrollView, StyleSheet } from 'react-native';
 
 import { Block, Button, Text } from '../components';
@@ -157,9 +157,9 @@ class Welcome extends Component {
               Login
             </Text>
           </Button>
-          <Button shadow onPress={() => navigation.navigate("Signup")}>
+          <Button shadow onPress={() => navigation.navigate("SignUp")}>
             <Text center semibold>
-              Signup
+              SignUp
             </Text>
           </Button>
           <Button onPress={() => this.setState({ showTerms: true })}>

@@ -1,30 +1,36 @@
 import React, { useState } from 'react';
-import { Dimensions, KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { ActivityIndicator, Keyboard, KeyboardAvoidingView, StyleSheet } from 'react-native';
 
 import { Block, Button, Input, Text } from '../components';
 import { theme } from '../constants';
 
-const { width, height } = Dimensions.get("window");
+const VALID_EMAIL = "artur@mail.ru";
+const VALID_PASSWORD = "123456789";
 
 export const Login = ({ navigation }) => {
-  const [email, setEmail] = useState("artur@mail.ru");
-  const [password, setPassword] = useState("123456789");
+  const [email, setEmail] = useState(VALID_EMAIL);
+  const [password, setPassword] = useState(VALID_PASSWORD);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
+  // check validation with backend
   const handlerLogin = () => {
     const errors = [];
+    Keyboard.dismiss();
     setLoading(true);
-    if (email !== "artur@mail.ru") {
-      errors.push("email");
-    }
-    if (password !== "123456789") {
-      errors.push("password");
-    }
-    setErrors(errors);
-    setLoading(false);
-    if (!errors.length) {
-      navigation.navigate("Browse");
-    }
+    // for loading Indicator
+    setTimeout(() => {
+      if (email !== VALID_EMAIL) {
+        errors.push("email");
+      }
+      if (password !== VALID_PASSWORD) {
+        errors.push("password");
+      }
+      setErrors(errors);
+      setLoading(false);
+      if (!errors.length) {
+        navigation.navigate("Browse");
+      }
+    }, 2000);
   };
   const hasErrors = key => (errors.includes(key) ? styles.hasErrors : null);
   return (
@@ -36,6 +42,7 @@ export const Login = ({ navigation }) => {
         <Block middle>
           <Input
             label="Email"
+            error={hasErrors("email")}
             style={[styles.input, hasErrors("email")]}
             defaultValue={email}
             onChangeText={setEmail}
@@ -43,17 +50,22 @@ export const Login = ({ navigation }) => {
           <Input
             secure
             label="Password"
+            error={hasErrors("password")}
             style={[styles.input, hasErrors("password")]}
             defaultValue={password}
             onChangeText={setPassword}
           ></Input>
 
           <Button gradient onPress={handlerLogin}>
-            <Text bold white center>
-              Login
-            </Text>
+            {loading ? (
+              <ActivityIndicator size="small" color="white" />
+            ) : (
+              <Text bold white center>
+                Login
+              </Text>
+            )}
           </Button>
-          <Button onPress={() => {}}>
+          <Button onPress={() => navigation.navigate("Forgot")}>
             <Text
               gray
               caption

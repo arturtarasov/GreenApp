@@ -4,13 +4,17 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import { theme } from '../constants';
+import { Forgot } from '../screens/Forgot';
 import { Login } from '../screens/Login';
+import { SignUp } from '../screens/SignUp';
 import Welcome from '../screens/Welcome';
 
 const screens = createStackNavigator(
   {
     Welcome,
-    Login
+    Login,
+    SignUp,
+    Forgot
     // Explore,
     // Browse,
     // Product,
@@ -37,7 +41,8 @@ const screens = createStackNavigator(
       headerRightContainerStyle: {
         alignItems: "center",
         paddingRight: theme.sizes.base
-      }
+      },
+      headerTitle: () => null
     }
   }
 );
