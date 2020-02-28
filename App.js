@@ -31,7 +31,7 @@ const images = [
 export default function App() {
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
 
-  handleResource = async () => {
+  const handleResource = async () => {
     // caching images
     const cacheImages = images.map(img => {
       return Asset.fromModule(img).downloadAsync();
@@ -43,7 +43,7 @@ export default function App() {
   if (!isLoadingComplete) {
     return (
       <AppLoading
-        startAsync={this.handleResource}
+        startAsync={handleResource}
         onError={err => console.warn(err)}
         onFinish={() => setIsLoadingComplete(true)}
       />

@@ -7,6 +7,7 @@ import { theme } from '../constants';
 import { Browse } from '../screens/Browse';
 import { Forgot } from '../screens/Forgot';
 import { Login } from '../screens/Login';
+import { Settings } from '../screens/Settings';
 import { SignUp } from '../screens/SignUp';
 import Welcome from '../screens/Welcome';
 
@@ -16,10 +17,10 @@ const screens = createStackNavigator(
     Login,
     SignUp,
     Forgot,
-    Browse
+    Browse,
     // Explore,
     // Product,
-    // Settings
+    Settings
   },
   {
     defaultNavigationOptions: {

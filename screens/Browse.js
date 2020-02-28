@@ -45,7 +45,7 @@ export const Browse = ({ navigation }) => {
         <Text h1 bold>
           Browse
         </Text>
-        <Button>
+        <Button onPress={() => navigation.navigate("Settings")}>
           <Image source={avatar} style={styles.avatar} />
         </Button>
       </Block>
