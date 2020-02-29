@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, ScrollView, StyleSheet, TextInput } from 'react-native';
 import Slider from 'react-native-slider';
 
 import { Block, Button, Divider, SwitchInput, Text } from '../components';
@@ -11,6 +11,46 @@ export const Settings = ({ navigation }) => {
   const [monthly, setMonthly] = useState(1700);
   const [notifications, setNotifications] = useState(true);
   const [newsletter, setNewsletter] = useState(false);
+  const [editing, setEditing] = useState(null);
+  const [currentProfile, setCurrentProfile] = useState({});
+
+  useEffect(() => {
+    setCurrentProfile(profile);
+  }, []);
+
+  const fixedValue = value => {
+    if (value.length >= 4) {
+      const str = value.toString();
+      return str.slice(0, -3) + "," + str.slice(-3);
+    }
+    return value;
+  };
+
+  const toggleEdit = name => {
+    const currentEditing = !editing ? name : null;
+
+    setEditing(currentEditing);
+  };
+
+  const handleEdit = (name, text) => {
+    currentProfile[name] = text;
+
+    setCurrentProfile(profile);
+  };
+
+  const renderEdit = name => {
+    if (editing === name) {
+      return (
+        <TextInput
+          defaultValue={currentProfile[name]}
+          onChangeText={text => handleEdit([name], text)}
+        />
+      );
+    }
+
+    return <Text bold>{currentProfile[name]}</Text>;
+  };
+
   return (
     <Block>
       <Block flex={false} row center space="between" style={styles.header}>
@@ -28,9 +68,11 @@ export const Settings = ({ navigation }) => {
               <Text gray2 style={{ marginBottom: 10 }}>
                 Username
               </Text>
+              {renderEdit("username")}
             </Block>
-            <Text medium secondary>
-              Edit
+
+            <Text medium secondary onPress={() => toggleEdit("username")}>
+              {editing === "username" ? "Save" : "Edit"}
             </Text>
           </Block>
           <Block row space="between" margin={[10, 0]} style={styles.inputRow}>
@@ -38,9 +80,10 @@ export const Settings = ({ navigation }) => {
               <Text gray2 style={{ marginBottom: 10 }}>
                 Location
               </Text>
+              {renderEdit("location")}
             </Block>
-            <Text medium secondary>
-              Edit
+            <Text medium secondary onPress={() => toggleEdit("location")}>
+              {editing === "location" ? "Save" : "Edit"}
             </Text>
           </Block>
           <Block row space="between" margin={[10, 0]} style={styles.inputRow}>
@@ -62,7 +105,7 @@ export const Settings = ({ navigation }) => {
             </Text>
             <Slider
               minimumValue={0}
-              maximumValue={1000}
+              maximumValue={5000}
               style={{ height: 19 }}
               thumbStyle={styles.thumb}
               trackStyle={{ height: 6, borderRadius: 6 }}
@@ -72,7 +115,7 @@ export const Settings = ({ navigation }) => {
               onValueChange={value => setBudget(value)}
             />
             <Text caption gray right>
-              $1,000
+              ${fixedValue(budget.toFixed(0))}
             </Text>
           </Block>
           <Block margin={[10, 0]}>
@@ -91,7 +134,7 @@ export const Settings = ({ navigation }) => {
               onValueChange={value => setMonthly(value)}
             />
             <Text caption gray right>
-              $5,000
+              ${fixedValue(monthly.toFixed(0))}
             </Text>
           </Block>
         </Block>
