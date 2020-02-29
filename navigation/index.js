@@ -5,6 +5,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import { theme } from '../constants';
 import { Browse } from '../screens/Browse';
+import { Explore } from '../screens/Explore';
 import { Forgot } from '../screens/Forgot';
 import { Login } from '../screens/Login';
 import { Settings } from '../screens/Settings';
@@ -18,7 +19,7 @@ const screens = createStackNavigator(
     SignUp,
     Forgot,
     Browse,
-    // Explore,
+    Explore,
     // Product,
     Settings
   },
