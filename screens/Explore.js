@@ -1,30 +1,50 @@
-import * as Icon from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { Animated, Dimensions, StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import {
+  Animated,
+  Dimensions,
+  Image,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity
+} from "react-native";
+import * as Icon from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
-import { Block, Input, Text } from '../components';
-import { theme } from '../constants';
+import { Button, Input, Block, Text } from "../components";
+import { theme, mocks } from "../constants";
 
 const { width, height } = Dimensions.get("window");
 
-export const Explore = props => {
-  const [searchFocus, setSearchFocus] = useState(new Animated.Value(0.6));
+export const Explore = (navigation) => {
+  const searchFocus = new Animated.Value(0.6)
   const [searchString, setSearchString] = useState(null);
+  const handleSearchFocus = (status) => {
+    Animated.timing(searchFocus, {
+      toValue: status ? 0.8 : 0.6, // status === true, increase flex size
+      duration: 500 // ms
+    }).start();
+  }
+
   const renderSearch = () => {
     const isEditing = searchFocus && searchString;
 
     return (
-      <Block middle flex={0.6} style={styles.search}>
+      <Block animated middle flex={searchFocus} style={styles.search}>
         <Input
           placeholder="Search"
           placeholderTextColor={theme.colors.gray2}
           style={styles.searchInput}
+          onFocus={() => handleSearchFocus(true)}
+          onBlur={() => handleSearchFocus(false)}
           onChangeText={text => setSearchString(text)}
           value={searchString}
           rightStyle={styles.searchRight}
+          onRightPress={() =>
+            isEditing ? setSearchString(null) : null
+          }
           rightLabel={
             <Icon.FontAwesome
-              name={"search"}
+              name={isEditing ? "close" : "search"}
               size={theme.sizes.base / 1.6}
               color={theme.colors.gray2}
               style={styles.searchIcon}
@@ -35,6 +55,60 @@ export const Explore = props => {
     );
   };
 
+  const renderExplore = () => {
+    const { explore: images } = mocks;
+    const mainImage = images[0];
+
+    return (
+      <Block style={{ marginBottom: height / 3 }}>
+        <TouchableOpacity
+          style={[styles.image, styles.mainImage]}
+          onPress={() => navigation.navigate("Product")}
+        >
+          <Image source={mainImage} style={[styles.image, styles.mainImage]} />
+        </TouchableOpacity>
+        <Block row space="between" wrap>
+          {images.slice(1).map((img, index) => renderImage(img, index))}
+        </Block>
+      </Block>
+    );
+  };
+
+  const renderImage = (img, index) => {
+    const sizes = Image.resolveAssetSource(img);
+    const fullWidth = width - theme.sizes.padding * 2.5;
+    const resize = (sizes.width * 100) / fullWidth;
+    const imgWidth = resize > 75 ? fullWidth : sizes.width * 1;
+
+    return (
+      <TouchableOpacity
+        key={`img-${index}`}
+        onPress={() => navigation.navigate("Product")}
+      >
+        <Image
+          source={img}
+          style={[styles.image, { minWidth: imgWidth, maxWidth: imgWidth }]}
+        />
+      </TouchableOpacity>
+    );
+  }
+
+  const renderFooter = () => {
+    return (
+      <LinearGradient
+        locations={[0.5, 1]}
+        style={styles.footer}
+        colors={["rgba(255,255,255,0)", "rgba(255,255,255,0.6)"]}
+      >
+        <Button gradient style={{ width: width / 2.678 }}>
+          <Text bold white center>
+            Filter
+          </Text>
+        </Button>
+      </LinearGradient>
+    );
+  }
+
   return (
     <Block>
       <Block flex={false} row center space="between" style={styles.header}>
@@ -43,6 +117,10 @@ export const Explore = props => {
         </Text>
         {renderSearch()}
       </Block>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.explore}>
+        {renderExplore()}
+      </ScrollView>
+      {renderFooter()}
     </Block>
   );
 };
