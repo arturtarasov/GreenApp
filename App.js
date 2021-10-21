@@ -50,9 +50,11 @@ export default function App() {
     );
   }
 
-  return (
+  const result = (
     <Block white>
       <Navigation />
     </Block>
   );
+
+  return result;
 }
